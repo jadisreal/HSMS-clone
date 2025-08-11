@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
     Bell,
     User,
@@ -13,35 +13,81 @@ import {
     GraduationCap,
     Briefcase,
     ChevronDown,
-    Menu
+    Menu,
+    Plus
 } from 'lucide-react';
 
-const Student: React.FC = () => {
-    const navigate = useNavigate();
+const StudentProfile: React.FC = () => {
+    const { id } = useParams<{ id: string }>();
     const [isSidebarOpen, setSidebarOpen] = useState(true);
     const [isSearchOpen, setSearchOpen] = useState(false);
     const [isInventoryOpen, setInventoryOpen] = useState(false);
 
     const handleNavigation = (path: string): void => {
-        navigate(path);
+        window.location.href = `#${path}`; // Simple navigation for now
     };
 
     const handleLogout = (): void => {
         localStorage.removeItem("isLoggedIn");
-        navigate("/");
+        window.location.href = "/";
     };
 
     const toggleSidebar = () => {
         setSidebarOpen(!isSidebarOpen);
     };
 
-    // Mock student data
-    const mockStudents = [
-        { id: 1, name: "Juan Dela Cruz", age: 20, gender: "Male", course: "BSIT" },
-        { id: 2, name: "Maria Santos", age: 19, gender: "Female", course: "BSN" },
-        { id: 3, name: "Carlos Reyes", age: 21, gender: "Male", course: "BSED" },
-        { id: 4, name: "Ana Lopez", age: 22, gender: "Female", course: "BSBA" },
-    ];
+    // Mock student data based on ID
+    const studentData: Record<string, any> = {
+        "1": {
+            name: "Juan Dela Cruz",
+            age: 20,
+            gender: "Male",
+            course: "BSIT",
+            address: "Fr Selga, Davao City",
+            contact: "09123456789",
+            lastVisit: "2025-08-01",
+            medicalHistory: [
+                { condition: "Asthma", diagnosed: "2023-01-15" },
+                { condition: "Allergy to Penicillin", diagnosed: "2022-05-10" }
+            ],
+            consultations: [
+                { date: "2025-08-01", notes: "Complained of headache and fatigue." },
+                { date: "2025-07-15", notes: "Routine checkup, no issues found." }
+            ],
+            remarks: [
+                { date: "2025-08-01", note: "Prescribed pain reliever." },
+                { date: "2025-07-15", note: "Advised to drink more water." }
+            ]
+        },
+        "2": {
+            name: "Maria Santos",
+            age: 19,
+            gender: "Female",
+            course: "BSN",
+            address: "Toril, Davao City",
+            contact: "09123456788",
+            lastVisit: "2025-07-28",
+            medicalHistory: [
+                { condition: "Migraine", diagnosed: "2023-03-20" }
+            ],
+            consultations: [
+                { date: "2025-07-28", notes: "Complained of severe headache." }
+            ],
+            remarks: [
+                { date: "2025-07-28", note: "Prescribed migraine medication." }
+            ]
+        }
+    };
+
+    const student = studentData[id || ""];
+
+    if (!student) {
+        return (
+            <div className="flex h-screen items-center justify-center">
+                <p className="text-xl text-gray-600">Student not found</p>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -158,41 +204,120 @@ const Student: React.FC = () => {
                         <div className="flex items-center justify-between">
                             <button onClick={toggleSidebar} className="text-white p-2 rounded-full hover:bg-white/20"><Menu className="w-6 h-6" /></button>
                             <div className="flex items-center"><img src="/Logo.png" alt="UIC Logo" className="w-15 h-15 mr-2"/><h1 className="text-white text-[28px] font-semibold">MEDICARE</h1></div>
-                            <div className="flex items-center"><Bell className="w-6 h-6 text-white cursor-pointer" /></div>
+                            <div className="flex items-center">
+                                <Bell className="w-6 h-6 text-white cursor-pointer mr-4" />
+                                <button
+                                    className="bg-[#A3386C] text-white p-2 rounded-full hover:bg-[#77536A]"
+                                    onClick={() => alert("Add new record")}
+                                >
+                                    <Plus className="w-5 h-5" />
+                                </button>
+                            </div>
                         </div>
                     </header>
 
-                    {/* Student List Content */}
+                    {/* Profile Content */}
                     <main className="flex-1 p-6 overflow-y-auto bg-white">
-                        <h1 className="text-3xl font-bold text-gray-800 mb-6">Student Patients</h1>
+                        <h1 className="text-3xl font-bold text-gray-800 mb-6">Patient Profile: {student.name}</h1>
 
-                        <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
-                            <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-[#D4A5B8] text-black">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">ID</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Name</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Age</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Gender</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Course</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                    {mockStudents.map((student) => (
-                                        <tr
-                                            key={student.id}
-                                            className="hover:bg-gray-50 cursor-pointer"
-                                            onClick={() => navigate(`/search/student/${student.id}`)}
-                                        >
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{student.id}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{student.name}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{student.age}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{student.gender}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{student.course}</td>
+                        {/* Patient Info */}
+                        <div className="mb-8">
+                            <h2 className="text-xl font-semibold text-gray-700 mb-4">Personal Information</h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <p className="text-sm text-gray-500">Name</p>
+                                    <p className="font-medium">{student.name}</p>
+                                </div>
+                                <div>
+                                    <p className="text-sm text-gray-500">Age</p>
+                                    <p className="font-medium">{student.age}</p>
+                                </div>
+                                <div>
+                                    <p className="text-sm text-gray-500">Gender</p>
+                                    <p className="font-medium">{student.gender}</p>
+                                </div>
+                                <div>
+                                    <p className="text-sm text-gray-500">Course</p>
+                                    <p className="font-medium">{student.course}</p>
+                                </div>
+                                <div>
+                                    <p className="text-sm text-gray-500">Contact</p>
+                                    <p className="font-medium">{student.contact}</p>
+                                </div>
+                                <div className="md:col-span-2">
+                                    <p className="text-sm text-gray-500">Address</p>
+                                    <p className="font-medium">{student.address}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Medical History */}
+                        <div className="mb-8">
+                            <h2 className="text-xl font-semibold text-gray-700 mb-4">Medical History</h2>
+                            <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+                                <table className="min-w-full divide-y divide-gray-200">
+                                    <thead className="bg-[#D4A5B8] text-black">
+                                        <tr>
+                                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Condition</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Diagnosed</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody className="bg-white divide-y divide-gray-200">
+                                        {student.medicalHistory.map((item: any, index: number) => (
+                                            <tr key={index}>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.condition}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.diagnosed}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        {/* Past Consultations */}
+                        <div className="mb-8">
+                            <h2 className="text-xl font-semibold text-gray-700 mb-4">Past Consultations</h2>
+                            <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+                                <table className="min-w-full divide-y divide-gray-200">
+                                    <thead className="bg-[#D4A5B8] text-black">
+                                        <tr>
+                                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Date</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Notes</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="bg-white divide-y divide-gray-200">
+                                        {student.consultations.map((item: any, index: number) => (
+                                            <tr key={index}>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.date}</td>
+                                                <td className="px-6 py-4 text-sm text-gray-900">{item.notes}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        {/* Remark Records */}
+                        <div className="mb-8">
+                            <h2 className="text-xl font-semibold text-gray-700 mb-4">Remark Records</h2>
+                            <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+                                <table className="min-w-full divide-y divide-gray-200">
+                                    <thead className="bg-[#D4A5B8] text-black">
+                                        <tr>
+                                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Date</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Note</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="bg-white divide-y divide-gray-200">
+                                        {student.remarks.map((item: any, index: number) => (
+                                            <tr key={index}>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.date}</td>
+                                                <td className="px-6 py-4 text-sm text-gray-900">{item.note}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </main>
                 </div>
@@ -201,4 +326,4 @@ const Student: React.FC = () => {
     );
 };
 
-export default Student;
+export default StudentProfile;
