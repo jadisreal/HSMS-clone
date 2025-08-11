@@ -182,7 +182,7 @@ const Employee: React.FC = () => {
                                         <tr
                                             key={employee.id}
                                             className="hover:bg-gray-50 cursor-pointer"
-                                            onClick={() => alert(`View profile for ${employee.name}`)} // Replace with real handler
+                                            onClick={() => navigate(`/search/employee/${employee.id}`)}
                                         >
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{employee.id}</td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{employee.name}</td>

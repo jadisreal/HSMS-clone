@@ -10,7 +10,9 @@ import Reports from "./pages/Reports";
 import Print from "./pages/Print";
 import About from "./pages/About";
 import Notification from "./pages/Notification";
-import StudentProfile from "./pages/Search/id";
+import StudentProfile from "./pages/Search/StudentProfile";
+import EmployeeProfile from "./pages/Search/EmployeeProfile";
+
 
 const App: React.FC = () => {
   return (
@@ -28,6 +30,7 @@ const App: React.FC = () => {
         <Route path="/about" element={<About />} />
         <Route path="/notification" element={<Notification />} />
         <Route path="/search/student/:id" element={<StudentProfile />} />
+        <Route path="/search/employee/:id" element={<EmployeeProfile />} />
       </Routes>
     </Router>
   );
