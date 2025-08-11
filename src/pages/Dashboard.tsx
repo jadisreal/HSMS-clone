@@ -10,9 +10,8 @@ import {
     ShieldQuestion,
     Search,
     Printer,
-    GraduationCap, // Added for Search submenu
-    Briefcase,    // Added for Search submenu
-    Users,        // Added for Search submenu
+    GraduationCap,
+    Briefcase,
     ChevronDown,
     Menu
 } from 'lucide-react';
@@ -108,10 +107,7 @@ const Dashboard: React.FC = () => {
                                             <Briefcase className="w-5 h-5 text-white flex-shrink-0" />
                                             <p className="text-sm text-white ml-3 whitespace-nowrap">Employee</p>
                                         </div>
-                                        <div className="flex items-center p-2 hover:bg-[#77536A] rounded-lg cursor-pointer" onClick={() => handleNavigation('/search/community')}>
-                                            <Users className="w-5 h-5 text-white flex-shrink-0" />
-                                            <p className="text-sm text-white ml-3 whitespace-nowrap">Community</p>
-                                        </div>
+                                        {/* Community item removed */}
                                     </div>
                                 )}
                             </div>
@@ -210,7 +206,6 @@ const Dashboard: React.FC = () => {
                         <section>
                             <h2 className="text-2xl font-normal text-black mb-4">Recent Consultations:</h2>
                             <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 h-40 flex items-center justify-center text-gray-500 italic">
-                                {/* This area can be populated with actual recent consultations data */}
                                 No recent consultations to display.
                             </div>
                         </section>
