@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom'; // ✅ Added useNavigate
 import {
     Bell,
     User,
@@ -19,17 +19,18 @@ import {
 
 const StudentProfile: React.FC = () => {
     const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate(); // ✅ Added navigate
     const [isSidebarOpen, setSidebarOpen] = useState(true);
     const [isSearchOpen, setSearchOpen] = useState(false);
     const [isInventoryOpen, setInventoryOpen] = useState(false);
 
     const handleNavigation = (path: string): void => {
-        window.location.href = `#${path}`;
+        navigate(path); // ✅ Use navigate instead of window.location
     };
 
     const handleLogout = (): void => {
         localStorage.removeItem("isLoggedIn");
-        window.location.href = "/";
+        navigate("/");
     };
 
     const toggleSidebar = () => {
@@ -405,7 +406,7 @@ const StudentProfile: React.FC = () => {
                             <h1 className="text-3xl font-bold text-gray-800">Patient Profile: {student.name}</h1>
                             <button
                                 className="bg-[#A3386C] text-white p-2 rounded-full hover:bg-[#77536A] relative group"
-                                onClick={() => alert("Add new consultation")}
+                                onClick={() => navigate(`/search/student/${id}/create-consultation`)} // ✅ Updated navigation
                             >
                                 <Plus className="w-5 h-5" />
                                 <span className="absolute bottom-full mb-2 hidden group-hover:block bg-black text-white text-xs rounded py-1 px-2">

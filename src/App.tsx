@@ -12,6 +12,7 @@ import About from "./pages/About";
 import Notification from "./pages/Notification";
 import StudentProfile from "./pages/Search/StudentProfile";
 import EmployeeProfile from "./pages/Search/EmployeeProfile";
+import CreateConsultation from './pages/Search/CreateConsultation';
 
 
 const App: React.FC = () => {
@@ -31,6 +32,8 @@ const App: React.FC = () => {
         <Route path="/notification" element={<Notification />} />
         <Route path="/search/student/:id" element={<StudentProfile />} />
         <Route path="/search/employee/:id" element={<EmployeeProfile />} />
+        <Route path="/search/student/:id/create-consultation" element={<CreateConsultation />} />
+        <Route path="/search/employee/:id/create-consultation" element={<CreateConsultation />} />
       </Routes>
     </Router>
   );
