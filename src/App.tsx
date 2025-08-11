@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Student from "./pages/Search/Student";
 import Employee from "./pages/Search/Employee";
-import Community from "./pages/Search/Community";
 import InventDashboard from "./pages/Inventory/InventDashboard";
 import Stocks from "./pages/Inventory/Stocks";
 import History from "./pages/Inventory/History";
@@ -19,7 +18,6 @@ const App: React.FC = () => {
         <Route path="/" element={<Dashboard />} />
         <Route path="/search/student" element={<Student />} />
         <Route path="/search/employee" element={<Employee />} />
-        <Route path="/search/community" element={<Community />} />
         <Route path="/inventory/dashboard" element={<InventDashboard />} />
         <Route path="/stocks" element={<Stocks />} />
         <Route path="/inventory/stocks" element={<Stocks />} />
