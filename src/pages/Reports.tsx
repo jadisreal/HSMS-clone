@@ -219,7 +219,6 @@ const Reports: React.FC = () => {
                             </button>
                         </div>
                     </div>
-                    
 
                     {/* Generated Report Display */}
                     <div>
