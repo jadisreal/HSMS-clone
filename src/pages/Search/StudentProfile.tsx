@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom'; // ✅ Added useNavigate
+import { useNavigate, useParams } from 'react-router-dom';
 import {
     Bell,
     User,
@@ -19,13 +19,14 @@ import {
 
 const StudentProfile: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate(); // ✅ Added navigate
+    const navigate = useNavigate();
     const [isSidebarOpen, setSidebarOpen] = useState(true);
     const [isSearchOpen, setSearchOpen] = useState(false);
     const [isInventoryOpen, setInventoryOpen] = useState(false);
+    const [activeTab, setActiveTab] = useState('medicalHistory');
 
     const handleNavigation = (path: string): void => {
-        navigate(path); // ✅ Use navigate instead of window.location
+        navigate(path);
     };
 
     const handleLogout = (): void => {
@@ -37,7 +38,7 @@ const StudentProfile: React.FC = () => {
         setSidebarOpen(!isSidebarOpen);
     };
 
-    // Mock student data based on ID
+    // Mock student data
     const studentData: Record<string, any> = {
         "1": {
             name: "Juan Dela Cruz",
@@ -132,9 +133,8 @@ const StudentProfile: React.FC = () => {
         );
     }
 
-    const [activeTab, setActiveTab] = useState('medicalHistory');
-
-    const tabContent = {
+    // Add the type annotation to fix the error
+    const tabContent: Record<string, React.ReactNode> = {
         medicalHistory: (
             <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
                 <table className="min-w-full divide-y divide-gray-200">
@@ -406,7 +406,7 @@ const StudentProfile: React.FC = () => {
                             <h1 className="text-3xl font-bold text-gray-800">Patient Profile: {student.name}</h1>
                             <button
                                 className="bg-[#A3386C] text-white p-2 rounded-full hover:bg-[#77536A] relative group"
-                                onClick={() => navigate(`/search/student/${id}/create-consultation`)} // ✅ Updated navigation
+                                onClick={() => navigate(`/search/student/${id}/create-consultation`)}
                             >
                                 <Plus className="w-5 h-5" />
                                 <span className="absolute bottom-full mb-2 hidden group-hover:block bg-black text-white text-xs rounded py-1 px-2">

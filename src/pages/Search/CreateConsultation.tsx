@@ -41,6 +41,15 @@ const CreateConsultation: React.FC = () => {
         navigate(-1); // Go back to previous page
     };
 
+    // Navigation handlers for consultation types
+    const handleWalkIn = () => {
+        navigate(`/search/student/${id}/create-consultation/walk-in`);
+    };
+
+    const handleScheduled = () => {
+        navigate(`/search/student/${id}/create-consultation/scheduled`);
+    };
+
     return (
         <>
             <div className="flex h-screen bg-gray-100">
@@ -171,15 +180,15 @@ const CreateConsultation: React.FC = () => {
                             <div className="space-y-4">
                                 <button
                                     className="bg-[#A3386C] text-white p-4 rounded-lg hover:bg-[#77536A] w-full"
-                                    onClick={() => alert("Walk-in consultation selected")}
+                                    onClick={handleWalkIn}
                                 >
                                     Walk-in
                                 </button>
                                 <button
                                     className="bg-[#A3386C] text-white p-4 rounded-lg hover:bg-[#77536A] w-full"
-                                    onClick={() => alert("Scheduled consultation selected")}
+                                    onClick={handleScheduled}
                                 >
-                                    Scheduled for later
+                                    Scheduled
                                 </button>
                             </div>
                         </div>
