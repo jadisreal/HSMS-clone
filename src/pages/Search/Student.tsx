@@ -1,3 +1,4 @@
+// src/pages/Search/Student.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -15,6 +16,7 @@ import {
     ChevronDown,
     Menu
 } from 'lucide-react';
+import { getStudents } from '../../data/mockData';
 
 const Student: React.FC = () => {
     const navigate = useNavigate();
@@ -35,13 +37,8 @@ const Student: React.FC = () => {
         setSidebarOpen(!isSidebarOpen);
     };
 
-    // Mock student data
-    const mockStudents = [
-        { id: 1, name: "Juan Dela Cruz", age: 20, gender: "Male", course: "BSIT" },
-        { id: 2, name: "Maria Santos", age: 19, gender: "Female", course: "BSN" },
-        { id: 3, name: "Carlos Reyes", age: 21, gender: "Male", course: "BSED" },
-        { id: 4, name: "Ana Lopez", age: 22, gender: "Female", course: "BSBA" },
-    ];
+    // Get student data from centralized mock data
+    const students = getStudents();
 
     return (
         <>
@@ -178,7 +175,7 @@ const Student: React.FC = () => {
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
-                                    {mockStudents.map((student) => (
+                                    {students.map((student) => (
                                         <tr
                                             key={student.id}
                                             className="hover:bg-gray-50 cursor-pointer"

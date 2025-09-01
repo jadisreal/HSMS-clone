@@ -1,3 +1,4 @@
+// src/pages/Search/Employee.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -15,6 +16,7 @@ import {
     ChevronDown,
     Menu
 } from 'lucide-react';
+import { getEmployees } from '../../data/mockData';
 
 const Employee: React.FC = () => {
     const navigate = useNavigate();
@@ -35,13 +37,8 @@ const Employee: React.FC = () => {
         setSidebarOpen(!isSidebarOpen);
     };
 
-    // Mock employee data
-    const mockEmployees = [
-        { id: 101, name: "Dr. Roberto Garcia", age: 45, gender: "Male", department: "Cardiology" },
-        { id: 102, name: "Nurse Lourdes Reyes", age: 38, gender: "Female", department: "Pediatrics" },
-        { id: 103, name: "Janitor Andres Cruz", age: 50, gender: "Male", department: "Maintenance" },
-        { id: 104, name: "Admin Maria Lopez", age: 30, gender: "Female", department: "HR" },
-    ];
+    // Get employee data from centralized mock data
+    const employees = getEmployees();
 
     return (
         <>
@@ -175,10 +172,11 @@ const Employee: React.FC = () => {
                                         <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Age</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Gender</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Department</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Position</th>
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
-                                    {mockEmployees.map((employee) => (
+                                    {employees.map((employee) => (
                                         <tr
                                             key={employee.id}
                                             className="hover:bg-gray-50 cursor-pointer"
@@ -189,6 +187,7 @@ const Employee: React.FC = () => {
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{employee.age}</td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{employee.gender}</td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{employee.department}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{employee.position}</td>
                                         </tr>
                                     ))}
                                 </tbody>

@@ -13,7 +13,8 @@ import Notification from "./pages/Notification";
 import StudentProfile from "./pages/Search/StudentProfile";
 import EmployeeProfile from "./pages/Search/EmployeeProfile";
 import CreateConsultation from './pages/Search/CreateConsultation';
-
+import WalkIn from './pages/Search/WalkIn';
+import Scheduled from './pages/Search/Scheduled';
 
 const App: React.FC = () => {
   return (
@@ -34,6 +35,10 @@ const App: React.FC = () => {
         <Route path="/search/employee/:id" element={<EmployeeProfile />} />
         <Route path="/search/student/:id/create-consultation" element={<CreateConsultation />} />
         <Route path="/search/employee/:id/create-consultation" element={<CreateConsultation />} />
+        <Route path="/search/student/:id/create-consultation/walk-in" element={<WalkIn />} />
+        <Route path="/search/employee/:id/create-consultation/walk-in" element={<WalkIn />} />
+        <Route path="/search/student/:id/create-consultation/scheduled" element={<Scheduled />} />
+        <Route path="/search/employee/:id/create-consultation/scheduled" element={<Scheduled />} />
       </Routes>
     </Router>
   );

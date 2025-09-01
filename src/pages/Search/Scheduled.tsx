@@ -1,4 +1,4 @@
-// src/pages/Search/WalkIn.tsx
+// src/pages/Search/Scheduled.tsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { getPatientById, addConsultation, addRemark } from '../../data/mockData';
 
-const WalkIn: React.FC = () => {
+const Scheduled: React.FC = () => {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
     
@@ -42,18 +42,9 @@ const WalkIn: React.FC = () => {
     const [patient, setPatient] = useState<any>(null);
 
     useEffect(() => {
-        // Set current date and time
-        const now = new Date();
-        setDate(now.toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: '2-digit', 
-            day: '2-digit' 
-        }));
-        setTime(now.toLocaleTimeString('en-US', { 
-            hour: '2-digit', 
-            minute: '2-digit',
-            hour12: false 
-        }));
+        // Initialize with empty date/time for scheduled appointments
+        setDate('');
+        setTime('');
         
         // Get patient data
         if (id) {
@@ -80,7 +71,10 @@ const WalkIn: React.FC = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         
-        if (!id || !patient) return;
+        if (!id || !patient || !date || !time) {
+            alert('Please fill in date and time');
+            return;
+        }
         
         // Create consultation record
         const consultationRecord = {
@@ -247,39 +241,41 @@ const WalkIn: React.FC = () => {
                 {/* Main Content */}
                 <main className="flex-1 p-6 overflow-y-auto bg-white">
                     <h1 className="text-3xl font-bold text-gray-800 mb-6">
-                        Walk-in Consultation - {patient.name}
+                        Scheduled Consultation - {patient.name}
                     </h1>
                     
                     {/* Success Message */}
                     {showSuccess && (
                         <div className="fixed top-20 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
-                            Consultation Submitted!
+                            Consultation Scheduled!
                         </div>
                     )}
                     
                     <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6">
-                        {/* Date and Time */}
+                        {/* Date and Time - Editable for scheduled appointments */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                             <div>
                                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                                    Date
+                                    Date *
                                 </label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     value={date}
-                                    readOnly
-                                    className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100"
+                                    onChange={(e) => setDate(e.target.value)}
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A3386C]"
+                                    required
                                 />
                             </div>
                             <div>
                                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                                    Time
+                                    Time *
                                 </label>
                                 <input
-                                    type="text"
+                                    type="time"
                                     value={time}
-                                    readOnly
-                                    className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100"
+                                    onChange={(e) => setTime(e.target.value)}
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A3386C]"
+                                    required
                                 />
                             </div>
                         </div>
@@ -399,7 +395,7 @@ const WalkIn: React.FC = () => {
                                 type="submit"
                                 className="bg-[#A3386C] text-white px-6 py-3 rounded-lg hover:bg-[#77536A] font-semibold"
                             >
-                                Submit
+                                Schedule Consultation
                             </button>
                         </div>
                     </form>
@@ -409,4 +405,4 @@ const WalkIn: React.FC = () => {
     );
 };
 
-export default WalkIn;
+export default Scheduled;

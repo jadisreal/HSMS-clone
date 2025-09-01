@@ -1,5 +1,6 @@
+// src/pages/Search/EmployeeProfile.tsx
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
     Bell,
     User,
@@ -16,111 +17,33 @@ import {
     Menu,
     Plus
 } from 'lucide-react';
+import { getPatientById } from '../../data/mockData';
 
 const EmployeeProfile: React.FC = () => {
     const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate();
     const [isSidebarOpen, setSidebarOpen] = useState(true);
     const [isSearchOpen, setSearchOpen] = useState(false);
     const [isInventoryOpen, setInventoryOpen] = useState(false);
+    const [activeTab, setActiveTab] = useState('medicalHistory');
 
     const handleNavigation = (path: string): void => {
-        window.location.href = `#${path}`;
+        navigate(path);
     };
 
     const handleLogout = (): void => {
         localStorage.removeItem("isLoggedIn");
-        window.location.href = "/";
+        navigate("/");
     };
 
     const toggleSidebar = () => {
         setSidebarOpen(!isSidebarOpen);
     };
 
-    // Mock employee data based on ID
-    const employeeData: Record<string, any> = {
-        "101": {
-            name: "Dr. Roberto Garcia",
-            age: 45,
-            gender: "Male",
-            department: "Cardiology",
-            address: "Bajada, Davao City",
-            contact: "09123456787",
-            lastVisit: "2025-08-05",
-            medicalHistory: [
-                { condition: "Hypertension", diagnosed: "2015-06-10" }
-            ],
-            consultations: [
-                { date: "2025-08-05", notes: "Routine checkup, blood pressure stable." }
-            ],
-            remarks: [
-                { date: "2025-08-05", note: "Continue current medication." }
-            ],
-            additionalProfile: {
-                lastName: "Garcia",
-                firstName: "Roberto",
-                middleInitial: "C",
-                suffix: "",
-                dateOfBirth: "1980-02-14",
-                nationality: "Filipino",
-                civilStatus: "Married",
-                address: "Bajada, Davao City",
-                guardianName: "N/A",
-                guardianContact: "N/A",
-                bloodType: "B+",
-                height: "175 cm",
-                religion: "Catholic",
-                eyeColor: "Brown",
-                chronicConditions: ["Hypertension"],
-                knownAllergies: [],
-                disabilities: "None",
-                immunizationHistory: ["Hepatitis B", "Influenza"],
-                geneticConditions: "None"
-            }
-        },
-        "102": {
-            name: "Nurse Lourdes Reyes",
-            age: 38,
-            gender: "Female",
-            department: "Pediatrics",
-            address: "Matina, Davao City",
-            contact: "09123456786",
-            lastVisit: "2025-07-30",
-            medicalHistory: [
-                { condition: "Migraine", diagnosed: "2010-09-05" }
-            ],
-            consultations: [
-                { date: "2025-07-30", notes: "Complained of headache, prescribed rest." }
-            ],
-            remarks: [
-                { date: "2025-07-30", note: "Advised to reduce stress." }
-            ],
-            additionalProfile: {
-                lastName: "Reyes",
-                firstName: "Lourdes",
-                middleInitial: "M",
-                suffix: "",
-                dateOfBirth: "1987-11-22",
-                nationality: "Filipino",
-                civilStatus: "Married",
-                address: "Matina, Davao City",
-                guardianName: "N/A",
-                guardianContact: "N/A",
-                bloodType: "A+",
-                height: "160 cm",
-                religion: "Catholic",
-                eyeColor: "Black",
-                chronicConditions: ["Migraine"],
-                knownAllergies: [],
-                disabilities: "None",
-                immunizationHistory: ["Hepatitis B", "MMR"],
-                geneticConditions: "None"
-            }
-        }
-    };
+    // Get employee data from centralized mock data
+    const employee = id ? getPatientById(id) : undefined;
 
-    const employee = employeeData[id || ""];
-
-    if (!employee) {
+    if (!employee || employee.type !== 'employee') {
         return (
             <div className="flex h-screen items-center justify-center">
                 <p className="text-xl text-gray-600">Employee not found</p>
@@ -128,9 +51,8 @@ const EmployeeProfile: React.FC = () => {
         );
     }
 
-    const [activeTab, setActiveTab] = useState('medicalHistory');
-
-    const tabContent = {
+    // Add the type annotation to fix the error
+    const tabContent: Record<string, React.ReactNode> = {
         medicalHistory: (
             <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
                 <table className="min-w-full divide-y divide-gray-200">
@@ -402,7 +324,7 @@ const EmployeeProfile: React.FC = () => {
                             <h1 className="text-3xl font-bold text-gray-800">Employee Profile: {employee.name}</h1>
                             <button
                                 className="bg-[#A3386C] text-white p-2 rounded-full hover:bg-[#77536A] relative group"
-                                onClick={() => alert("Add new consultation")}
+                                onClick={() => navigate(`/search/employee/${id}/create-consultation`)}
                             >
                                 <Plus className="w-5 h-5" />
                                 <span className="absolute bottom-full mb-2 hidden group-hover:block bg-black text-white text-xs rounded py-1 px-2">
@@ -430,6 +352,10 @@ const EmployeeProfile: React.FC = () => {
                                 <div>
                                     <p className="text-sm text-gray-500">Department</p>
                                     <p className="font-medium">{employee.department}</p>
+                                </div>
+                                <div>
+                                    <p className="text-sm text-gray-500">Position</p>
+                                    <p className="font-medium">{employee.position}</p>
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-500">Contact</p>

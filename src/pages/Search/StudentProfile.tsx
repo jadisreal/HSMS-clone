@@ -1,3 +1,4 @@
+// src/pages/Search/StudentProfile.tsx
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -16,6 +17,7 @@ import {
     Menu,
     Plus
 } from 'lucide-react';
+import { getPatientById } from '../../data/mockData';
 
 const StudentProfile: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -38,94 +40,10 @@ const StudentProfile: React.FC = () => {
         setSidebarOpen(!isSidebarOpen);
     };
 
-    // Mock student data
-    const studentData: Record<string, any> = {
-        "1": {
-            name: "Juan Dela Cruz",
-            age: 20,
-            gender: "Male",
-            course: "BSIT",
-            address: "Fr Selga, Davao City",
-            contact: "09123456789",
-            lastVisit: "2025-08-01",
-            medicalHistory: [
-                { condition: "Asthma", diagnosed: "2023-01-15" },
-                { condition: "Allergy to Penicillin", diagnosed: "2022-05-10" }
-            ],
-            consultations: [
-                { date: "2025-08-01", notes: "Complained of headache and fatigue." },
-                { date: "2025-07-15", notes: "Routine checkup, no issues found." }
-            ],
-            remarks: [
-                { date: "2025-08-01", note: "Prescribed pain reliever." },
-                { date: "2025-07-15", note: "Advised to drink more water." }
-            ],
-            additionalProfile: {
-                lastName: "Dela Cruz",
-                firstName: "Juan",
-                middleInitial: "A",
-                suffix: "Jr.",
-                dateOfBirth: "2005-03-15",
-                nationality: "Filipino",
-                civilStatus: "Single",
-                address: "Fr Selga, Davao City",
-                guardianName: "Maria Dela Cruz",
-                guardianContact: "09123456780",
-                bloodType: "O+",
-                height: "170 cm",
-                religion: "Catholic",
-                eyeColor: "Brown",
-                chronicConditions: ["Asthma"],
-                knownAllergies: ["Penicillin"],
-                disabilities: "None",
-                immunizationHistory: ["Hepatitis B", "MMR"],
-                geneticConditions: "None"
-            }
-        },
-        "2": {
-            name: "Maria Santos",
-            age: 19,
-            gender: "Female",
-            course: "BSN",
-            address: "Toril, Davao City",
-            contact: "09123456788",
-            lastVisit: "2025-07-28",
-            medicalHistory: [
-                { condition: "Migraine", diagnosed: "2023-03-20" }
-            ],
-            consultations: [
-                { date: "2025-07-28", notes: "Complained of severe headache." }
-            ],
-            remarks: [
-                { date: "2025-07-28", note: "Prescribed migraine medication." }
-            ],
-            additionalProfile: {
-                lastName: "Santos",
-                firstName: "Maria",
-                middleInitial: "B",
-                suffix: "",
-                dateOfBirth: "2006-07-20",
-                nationality: "Filipino",
-                civilStatus: "Single",
-                address: "Toril, Davao City",
-                guardianName: "Roberto Santos",
-                guardianContact: "09123456781",
-                bloodType: "A+",
-                height: "160 cm",
-                religion: "Born Again Christian",
-                eyeColor: "Black",
-                chronicConditions: ["Migraine"],
-                knownAllergies: [],
-                disabilities: "None",
-                immunizationHistory: ["Hepatitis B", "Varicella"],
-                geneticConditions: "None"
-            }
-        }
-    };
+    // Get student data from centralized mock data
+    const student = id ? getPatientById(id) : undefined;
 
-    const student = studentData[id || ""];
-
-    if (!student) {
+    if (!student || student.type !== 'student') {
         return (
             <div className="flex h-screen items-center justify-center">
                 <p className="text-xl text-gray-600">Student not found</p>
